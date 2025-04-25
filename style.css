@@ -280,4 +280,17 @@ body {
   height: 36px;
   border-radius: 4px;
   background: transparent;
+
+  @media (max-width: 768px) {
+  .profile-section {
+    padding: 10px;
+  }
+
+  .highlight-box {
+    width: 45%;
+  }
+
+  .highlight-box.wide {
+    width: 100%;
+  }
 }
