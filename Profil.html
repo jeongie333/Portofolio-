@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Feryeon Profile</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Cover -->
+  <div class="cover-photo"></div>
+
+  <!-- Profil Section -->
+  <div class="profile-section">
+    <img src="jeong2.jpeg" alt="Profile Picture" class="profile-pic">
+
+    <!-- Nama Profil -->
+    <div class="profile-name-box">
+      <h2 class="profile-name">Feryeon (Ostrich)</h2>
+    </div>
+
+    <!-- Deskripsi dan Musik -->
+    <div class="profile-desc">
+      <div class="music-box">
+        <button class="play-button" onclick="toggleMusic()">
+  <i class="fas fa-play"></i>
+</button>
+
+        <div class="music-content">
+          <img src="Boxmusic.jpg" alt="I Can't Stop Me" class="music-thumb">
+          <div class="music-info">
+            <p class="subtitle">I CAN'T STOP ME</p>
+            <canvas id="spectrum" width="180" height="40"></canvas>
+          </div>
+        </div>
+
+        <audio id="audio-player" src="icantstopme.mp3"></audio>
+      </div>
+
+      <!-- Tombol Cerita dan Edit -->
+      <div class="buttons">
+        <button class="story-btn">+ Tambahkan ke cerita</button>
+        <button class="edit-btn">Edit profil</button>
+      </div>
+
+      <!-- Tab Navigasi -->
+      <div class="tabs">
+        <button>Gallery</button>
+        <button>Profil</button>
+      </div>
+
+      <!-- Gallery Section -->
+      <div class="Gallery">
+        <div class="Gallery-container">
+          <a href="Gallery.html" class="Gallery-box">
+            <img src="jeong1.jpeg" alt="Jeongie">
+            <span>Jeongie</span>
+          </a>
+
+          <a href="GalleryVideo.html" class="Gallery-box">
+            <img src="jeong2.jpeg" alt="SoPretty">
+            <span>SoPretty</span>
+          </a>
+
+          <a href="ProfilLengkap.html" class="Gallery-box">
+            <img src="Snapins.ai_488409628_18352036720148507_5249781151686613567_n_1080.jpg" alt="My Wife">
+            <span>My Wife</span>
+          </a>
+
+          <a href="Special.html" class="Gallery-box wide">
+            <img src="1.jpg" alt="Special">
+            <span>Special</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <!-- Script Musik -->
+  <script>
+  const audio = document.getElementById("audio-player");
+  const canvas = document.getElementById("spectrum");
+  const ctx = canvas.getContext("2d");
+
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const analyser = audioCtx.createAnalyser();
+  const source = audioCtx.createMediaElementSource(audio);
+  const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+  source.connect(analyser);
+  analyser.connect(audioCtx.destination);
+
+  function toggleMusic() {
+    const icon = document.querySelector(".play-button i");
+
+    if (audio.paused) {
+      audioCtx.resume();
+      audio.play();
+      icon.classList.remove("fa-play");
+      icon.classList.add("fa-pause");
+      animate();
+    } else {
+      audio.pause();
+      icon.classList.remove("fa-pause");
+      icon.classList.add("fa-play");
+    }
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+    analyser.getByteFrequencyData(dataArray);
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const barWidth = 4;
+    let x = 0;
+
+    for (let i = 0; i < dataArray.length; i += 10) {
+      const barHeight = dataArray[i] / 2;
+      ctx.fillStyle = '#00ff88';
+      ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+      x += barWidth + 1;
+    }
+  }
+</script>
+
+</body>
+</html>
